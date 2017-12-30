@@ -1,0 +1,51 @@
+clc;
+close all;
+% Read standard MATLAB demo image.
+rgbImage = imread('C:\Users\Abhishek\Desktop\IM\a.jpg'); 
+% Maximize figure.
+set(gcf, 'Position', get(0, 'ScreenSize'));
+% Split the original image into color bands.
+redBand = rgbImage(:,:, 1);
+greenBand = rgbImage(:,:, 2);
+blueBand = rgbImage(:,:, 3); 
+% Threshold each color band.
+redthreshold = 70 ;
+greenThreshold = 70;
+blueThreshold = 72;
+redMask = (redBand > redthreshold);
+greenMask = (greenBand < greenThreshold);
+blueMask = (blueBand < blueThreshold); 
+% Combine the masks to find where all 3 are "true."
+redObjectsMask = uint8(redMask & greenMask & blueMask);
+maskedrgbImage = uint8(zeros(size(redObjectsMask))); % Initialize
+maskedrgbImage(:,:,1) = rgbImage(:,:,1) .* redObjectsMask;
+maskedrgbImage(:,:,2) = rgbImage(:,:,2) .* redObjectsMask;
+maskedrgbImage(:,:,3) = rgbImage(:,:,3) .* redObjectsMask;
+a=maskedrgbImage;
+imshow(rgbImage);
+[centersBright, radiiBright] = imfindcircles(a,[10 50],'Sensitivity',0.9);
+viscircles(centersBright,radiiBright,'EdgeColor','r');
+%green
+redMask = (redBand < redthreshold);
+greenMask = (greenBand > greenThreshold);
+blueMask = (blueBand < blueThreshold); 
+redObjectsMask = uint8(redMask & greenMask & blueMask);
+maskedrgbImag = uint8(zeros(size(redObjectsMask))); % Initialize
+maskedrgbImag(:,:,1) = rgbImage(:,:,1) .* redObjectsMask;
+maskedrgbImag(:,:,2) = rgbImage(:,:,2) .* redObjectsMask;
+maskedrgbImag(:,:,3) = rgbImage(:,:,3) .* redObjectsMask;
+b=maskedrgbImag;
+[centersBright, radiiBright] = imfindcircles(b,[10 50],'Sensitivity',0.9);
+viscircles(centersBright,radiiBright,'LineStyle','--','EdgeColor','g');
+%yellow
+redMask = (redBand > redthreshold);
+greenMask = (greenBand > greenThreshold);
+blueMask = (blueBand < blueThreshold); 
+redObjectsMask = uint8(redMask & greenMask & blueMask);
+maskedrgbIma = uint8(zeros(size(redObjectsMask))); % Initialize
+maskedrgbIma(:,:,1) = rgbImage(:,:,1) .* redObjectsMask;
+maskedrgbIma(:,:,2) = rgbImage(:,:,2) .* redObjectsMask;
+maskedrgbIma(:,:,3) = rgbImage(:,:,3) .* redObjectsMask;
+c=maskedrgbIma;
+[centersBright, radiiBright] = imfindcircles(c,[10 50],'Sensitivity',0.9);
+viscircles(centersBright,radiiBright,'EdgeColor','b');
